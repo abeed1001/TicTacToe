@@ -78,29 +78,31 @@ public class TicTacToe {
                         break;
                     }
 
-                    //Enter bot choice
-                    while (true) {
-                            int botChoiceInput = ran.nextInt(9);
 
-                            if (botChoiceInput == 0 || botChoiceInput == 1 || botChoiceInput == 2) {
-                                if (row1[botChoiceInput].equals(" ")) {
-                                    row1[botChoiceInput] = "o";
-                                    break;
-                                }
-                            } else if (botChoiceInput == 3 || botChoiceInput == 4 || botChoiceInput == 5) {
-                                if (row2[botChoiceInput - 3].equals(" ")) {
-                                    row2[botChoiceInput - 3] = "o";
-                                    break;
-                                }
-                            } else if (botChoiceInput == 6 || botChoiceInput == 7 || botChoiceInput == 8) {
-                                if (row3[botChoiceInput - 6].equals(" ")) {
-                                    row3[botChoiceInput - 6] = "o";
-                                    break;
-                                }
-                            }
+
+
+                }
+
+                //Enter bot choice
+                while (true) {
+                    int botChoiceInput = ran.nextInt(9);
+
+                    if (botChoiceInput == 0 || botChoiceInput == 1 || botChoiceInput == 2) {
+                        if (row1[botChoiceInput].equals(" ")) {
+                            row1[botChoiceInput] = "o";
+                            break;
                         }
-
-
+                    } else if (botChoiceInput == 3 || botChoiceInput == 4 || botChoiceInput == 5) {
+                        if (row2[botChoiceInput - 3].equals(" ")) {
+                            row2[botChoiceInput - 3] = "o";
+                            break;
+                        }
+                    } else if (botChoiceInput == 6 || botChoiceInput == 7 || botChoiceInput == 8) {
+                        if (row3[botChoiceInput - 6].equals(" ")) {
+                            row3[botChoiceInput - 6] = "o";
+                            break;
+                        }
+                    }
                 }
 
                 //Checking win combos
