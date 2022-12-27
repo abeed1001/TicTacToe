@@ -1,15 +1,15 @@
 import java.util.Arrays;
-import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
 public class TicTacToe {
     public static void main(String[] args) {
 
+
         Scanner scan = new Scanner(System.in);
-        String playOptionInput = "Y";
-        byte squareChoiceInput;
+        boolean checkEmptySpaceLoop;
         String gameLoopCheck;
+        String playOptionInput = "Y";
         Random ran = new Random();
 
 
@@ -41,72 +41,34 @@ public class TicTacToe {
             while (gameLoopCheck.equals("Y")) {
 
 
-                //Check if valid input
-                while (true) {
-                    try {
-                        System.out.println("Pick a spot from 0-8");
-                        squareChoiceInput = scan.nextByte();
+                checkEmptySpaceLoop = false;
+                while(!checkEmptySpaceLoop){
+                    System.out.println("Pick from 0-8");
+                    try{
+                        byte squareChoiceInput = scan.nextByte();
+                        checkEmptySpaceLoop = checkIfSpaceEmpty("x",squareChoiceInput,row1,row2,row3);
 
-
-                        if (squareChoiceInput < 0 || squareChoiceInput > 8) {
-                            throw new Exception();
-                        } else if (squareChoiceInput == 0 || squareChoiceInput == 1 || squareChoiceInput == 2) {
-                            if (row1[squareChoiceInput].equals(" ")) {
-                                row1[squareChoiceInput] = "x";
-                                break;
-                            }
-                        } else if (squareChoiceInput == 3 || squareChoiceInput == 4 || squareChoiceInput == 5) {
-                            if (row2[squareChoiceInput - 3].equals(" ")) {
-                                row2[squareChoiceInput - 3] = "x";
-                                break;
-                            }
-                        } else if (squareChoiceInput == 6 || squareChoiceInput == 7 || squareChoiceInput == 8) {
-                            if (row3[squareChoiceInput - 6].equals(" ")) {
-                                row3[squareChoiceInput - 6] = "x";
-                                break;
-                            }
-                        }
-                    } catch (InputMismatchException e) {
+                    }catch (Exception e){
                         scan.next();
-                    } catch (Exception e) {
                     }
-
-
-                    if (!Arrays.asList(row1).contains(" ") && !Arrays.asList(row2).contains(" ") && !Arrays.asList(row3).contains(" ")) {
-                        System.out.println("Game over. Board is full.");
-                        gameLoopCheck = "N";
-                        break;
-                    }
-
-
-
-
                 }
 
-                //Enter bot choice
-                while (true) {
-                    int botChoiceInput = ran.nextInt(9);
 
-                    if (botChoiceInput == 0 || botChoiceInput == 1 || botChoiceInput == 2) {
-                        if (row1[botChoiceInput].equals(" ")) {
-                            row1[botChoiceInput] = "o";
-                            break;
-                        }
-                    } else if (botChoiceInput == 3 || botChoiceInput == 4 || botChoiceInput == 5) {
-                        if (row2[botChoiceInput - 3].equals(" ")) {
-                            row2[botChoiceInput - 3] = "o";
-                            break;
-                        }
-                    } else if (botChoiceInput == 6 || botChoiceInput == 7 || botChoiceInput == 8) {
-                        if (row3[botChoiceInput - 6].equals(" ")) {
-                            row3[botChoiceInput - 6] = "o";
-                            break;
-                        }
-                    }
+
+
+                if (!Arrays.asList(row1).contains(" ") && !Arrays.asList(row2).contains(" ") && !Arrays.asList(row3).contains(" ")) {
+                    System.out.println("Game over. Board is full.");
+                    break;
+                }
+
+                //Bot input
+                checkEmptySpaceLoop = false;
+                while(!checkEmptySpaceLoop){
+                    checkEmptySpaceLoop = checkIfSpaceEmpty("o", (byte) ran.nextInt(9),row1,row2,row3);
+
                 }
 
                 //Checking win combos
-
                 //Check diagonals
                 if (row1[0].equals(row2[1]) && row2[1].equals(row3[2]) && (row1[0].equals("x") || row1[0].equals("o"))) {
                     System.out.println(row1[0] + " wins!");
@@ -139,5 +101,30 @@ public class TicTacToe {
             System.out.println(Arrays.toString(r));
         }
     }
+
+    public static boolean checkIfSpaceEmpty(String player, byte squareChoiceInput, String[] row1, String[] row2, String[] row3) {
+
+        //for (char i : "xo".toCharArray()){
+            if (squareChoiceInput < 0 || squareChoiceInput > 8) {
+                return true;
+            } else if (squareChoiceInput == 0 || squareChoiceInput == 1 || squareChoiceInput == 2) {
+                if (row1[squareChoiceInput].equals(" ")) {
+                    row1[squareChoiceInput] = player;
+                    return true;
+                }
+            } else if (squareChoiceInput == 3 || squareChoiceInput == 4 || squareChoiceInput == 5) {
+                if (row2[squareChoiceInput - 3].equals(" ")) {
+                    row2[squareChoiceInput - 3] = player;
+                    return true;
+                }
+            } else if (squareChoiceInput == 6 || squareChoiceInput == 7 || squareChoiceInput == 8) {
+                if (row3[squareChoiceInput - 6].equals(" ")) {
+                    row3[squareChoiceInput - 6] = player;
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
 }
