@@ -54,6 +54,8 @@ public class TicTacToe {
                 }
 
 
+                //Checking win combos
+                gameLoopCheck = checkWinCombos(arrRows,row1,row2,row3);
 
 
                 if (!Arrays.asList(row1).contains(" ") && !Arrays.asList(row2).contains(" ") && !Arrays.asList(row3).contains(" ")) {
@@ -69,44 +71,26 @@ public class TicTacToe {
                 }
 
                 //Checking win combos
-                //Check diagonals
-                if (row1[0].equals(row2[1]) && row2[1].equals(row3[2]) && (row1[0].equals("x") || row1[0].equals("o"))) {
-                    System.out.println(row1[0] + " wins!");
-                    gameLoopCheck = "N";
-
-                } else if (row1[2].equals(row2[1]) && row2[1].equals(row3[0]) && (row1[2].equals("x") || row1[2].equals("o"))) {
-                    System.out.println(row1[2] + " wins!");
-                    gameLoopCheck = "N";
-                } else {
-                    for (int i = 0; i < 3; i++) {
-                        if (Arrays.stream(arrRows[i]).distinct().count() == 1 && (arrRows[i][0].equals("x") || arrRows[i][0].equals("o"))) { //Check row
-                            System.out.println(arrRows[i][0] + " wins!");
-                            gameLoopCheck = "N";
-                        } else if (row1[i].equals(row2[i]) && row2[i].equals(row3[i]) && (row1[i].equals("x") || row1[0].equals("o"))) { //Check column
-                            System.out.println(row1[i] + " wins!");
-                            gameLoopCheck = "N";
-                        }
-                    }
-                }
-
-                displayBoard(arrRows);
+                gameLoopCheck = checkWinCombos(arrRows,row1,row2,row3);
+                //Print board
+                printBoard(arrRows);
 
             }
         }
     }
 
     //Print board
-    public static void displayBoard(String[][] arrRows){
+    public static void printBoard(String[][] arrRows){
         for(String[] r : arrRows){
             System.out.println(Arrays.toString(r));
         }
     }
 
+    //Check if selected board space is empty
     public static boolean checkIfSpaceEmpty(String player, byte squareChoiceInput, String[] row1, String[] row2, String[] row3) {
 
-        //for (char i : "xo".toCharArray()){
             if (squareChoiceInput < 0 || squareChoiceInput > 8) {
-                return true;
+                return false;
             } else if (squareChoiceInput == 0 || squareChoiceInput == 1 || squareChoiceInput == 2) {
                 if (row1[squareChoiceInput].equals(" ")) {
                     row1[squareChoiceInput] = player;
@@ -124,7 +108,31 @@ public class TicTacToe {
                 }
             }
             return false;
+    }
+
+    //Check win combos
+    public static String checkWinCombos(String[][] arrRows, String[] row1, String[] row2, String[] row3){
+
+        //If winner exit play loop
+        if (row1[0].equals(row2[1]) && row2[1].equals(row3[2]) && (row1[0].equals("x") || row1[0].equals("o"))) {
+            System.out.println(row1[0] + " wins!");
+            return "N";
+
+        } else if (row1[2].equals(row2[1]) && row2[1].equals(row3[0]) && (row1[2].equals("x") || row1[2].equals("o"))) {
+            System.out.println(row1[2] + " wins!");
+            return "N";
+        } else {
+            for (int i = 0; i < 3; i++) {
+                if (Arrays.stream(arrRows[i]).distinct().count() == 1 && (!arrRows[i][0].equals(" "))) { //Check row
+                    System.out.println(arrRows[i][0] + " wins!");
+                    return "N";
+                } else if (row1[i].equals(row2[i]) && row2[i].equals(row3[i]) && (!row1[i].equals(" "))) { //Check column
+                    System.out.println(row1[i] + " wins!");
+                    return "N";
+                }
+            }
         }
-
-
+        //No winner keep playing
+        return "Y";
+    }
 }
